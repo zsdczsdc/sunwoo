@@ -1,0 +1,48 @@
+변수조작
+parameter expansion ( 매개변수 확장 --> 선언된 변수의 조작 )
+
+[waskjk@ip-10-5-10-178 ~]$ var1="string"
+[waskjk@ip-10-5-10-178 ~]$ echo ${#var1}
+6
+[waskjk@ip-10-5-10-178 ~]$ echo ${var2:-"string2"}
+string2
+[waskjk@ip-10-5-10-178 ~]$ echo $var2
+
+[waskjk@ip-10-5-10-178 ~]$ var2="defind"
+[waskjk@ip-10-5-10-178 ~]$ echo ${var2:-"string2"}
+defind
+
+[waskjk@ip-10-5-10-178 ~]$ echo ${var3+"sting3"}
+
+[waskjk@ip-10-5-10-178 ~]$ echo $var3
+
+[waskjk@ip-10-5-10-178 ~]$ var3="defind"
+[waskjk@ip-10-5-10-178 ~]$ echo ${var3+"sting3"}
+sting3
+
+var4를 선언하지않고 수행
+[waskjk@ip-10-5-10-178 ~]$ echo ${var4:="string4"} ====>  null 이면 뒤의 문자 "string4"로 대체하고 변수 var4에 string4가 들어간다.
+string4
+[waskjk@ip-10-5-10-178 ~]$ echo $var4
+string4
+
+[waskjk@ip-10-5-10-178 ~]$ var4="defined"
+[waskjk@ip-10-5-10-178 ~]$ echo ${var4:="string4"} ====>  null이 아니므로 "string4"로 대체되지 않는다.
+defined
+[waskjk@ip-10-5-10-178 ~]$ echo $var4
+defined   =========> 변경되지 않았다.
+
+[waskjk@ip-10-5-10-178 ~]$ var6="abcdefghijklms"
+[waskjk@ip-10-5-10-178 ~]$ echo ${var6:3} =========>$var6에서 인덱스번호 3번째 (d) 부터 마지막까지 출력  ..... 순서는 0번 (a) 부터 시작으로 한다.
+defghijklms
+[waskjk@ip-10-5-10-178 ~]$ echo ${var6:2:3} 인덱스번호 2번부터 3글자를 가져온다
+cde
+
+[waskjk@ip-10-5-10-178 ~]$ var7="abcvabcu" =======> 변수바꾸기
+[waskjk@ip-10-5-10-178 ~]$ echo ${var7/"abc"/"123"} ======> 첨에 하나만 
+123vabcu
+[waskjk@ip-10-5-10-178 ~]$ echo ${var7//"abc"/"123"} ========> 포함하는 문자열 모두
+123v123u
+
+
+command substitution ( 명령 치환 )
