@@ -1,0 +1,141 @@
+#   jq 사용 가이드
+
+[nldf-app@ec2-mgt-devops001 INFRA-778]$ curl -L -w "\n" -H "x-whatap-token: 63W3FGNNTNHPL1VL7TCPM258" -H "x-whatap-pcode: 5466"
+    https://service.whatap.io/open/api/json/oids/active_tx?oid=-92962884  >  BATCH_ATX_CNT
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100   199  100   199    0     0    898      0 --:--:-- --:--:-- --:--:--   900
+[nldf-app@ec2-mgt-devops001 INFRA-778]$
+
+[nldf-app@ec2-mgt-devops001 INFRA-778]$ cat BATCH_ATX_CNT
+{"pcode":5466,"time":1588060290000,"comment":"dbconn : active",
+"Oids":[{"oid":-489294800,"oname":"SB-228-11-8080","active_tx_count":3},
+        {"oid":-92962884,"oname":"SB-233-48-8080","active_tx_count":7}]}
+[nldf-app@ec2-mgt-devops001 INFRA-778]$
+
+
+[nldf-app@ec2-mgt-devops001 INFRA-778]$ jq '.' BATCH_ATX_CNT
+{
+  "pcode": 5466,
+  "time": 1588060290000,
+  "comment": "dbconn : active",
+  "Oids": [
+    {
+      "oid": -489294800,
+      "oname": "SB-228-11-8080",
+      "active_tx_count": 3
+    },
+    {
+      "oid": -92962884,
+      "oname": "SB-233-48-8080",
+      "active_tx_count": 7
+    }
+  ]
+}
+[nldf-app@ec2-mgt-devops001 INFRA-778]$
+
+
+[nldf-app@ec2-mgt-devops001 INFRA-778]$ jq '.Oids[]' BATCH_ATX_CNT
+{
+  "oid": -489294800,
+  "oname": "SB-228-11-8080",
+  "active_tx_count": 3
+}
+{
+  "oid": -92962884,
+  "oname": "SB-233-48-8080",
+  "active_tx_count": 7
+}
+[nldf-app@ec2-mgt-devops001 INFRA-778]$
+
+
+
+[nldf-app@ec2-mgt-devops001 INFRA-778]$ jq '.Oids[] | select(.oname=="SB-228-11-8080")' BATCH_ATX_CNT
+{
+  "oid": -489294800,
+  "oname": "SB-228-11-8080",
+  "active_tx_count": 3
+}
+[nldf-app@ec2-mgt-devops001 INFRA-778]$
+
+
+[nldf-app@ec2-mgt-devops001 INFRA-778]$ jq '.Oids[] | select(.oname=="SB-233-48-8080")' BATCH_ATX_CNT
+{
+  "oid": -92962884,
+  "oname": "SB-233-48-8080",
+  "active_tx_count": 7
+}
+[nldf-app@ec2-mgt-devops001 INFRA-778]$
+
+
+
+jq '.Oids[] | select(.oname=="SB-228-11-8080")' BATCH_ATX_CNT | jq '.active_tx_count'
+
+[nldf-app@ec2-mgt-devops001 INFRA-778]$ jq '.Oids[] | select(.oname=="SB-228-11-8080")' BATCH_ATX_CNT | jq '.active_tx_count'
+3
+[nldf-app@ec2-mgt-devops001 INFRA-778]$
+
+
+jq '.Oids[] | select(.oname=="SB-233-48-8080")' BATCH_ATX_CNT | jq '.active_tx_count'
+$
+[nldf-app@ec2-mgt-devops001 INFRA-778]$ jq '.Oids[] | select(.oname=="SB-233-48-8080")' BATCH_ATX_CNT | jq '.active_tx_count'
+7
+[nldf-app@ec2-mgt-devops001 INFRA-778]$
+
+
+
+
+
+
+
+
+
+curl -L -w "\n" -H "x-whatap-token: 63W3FGNNTNHPL1VL7TCPM258" -H "x-whatap-pcode: 5466" https://service.whatap.io/open/api/json/oids/active_tx?oid=-92962884  >  BATCH_ATX_CNT
+jq '.' BATCH_ATX_CNT
+
+jq '.Oids[] | select(.oname=="SB-228-11-8080")' BATCH_ATX_CNT | jq '.active_tx_count'
+jq '.Oids[] | select(.oname=="SB-233-48-8080")' BATCH_ATX_CNT | jq '.active_tx_count'
+
+
+[nldf-app@ec2-mgt-devops001 INFRA-778]$ curl -L -w "\n" -H "x-whatap-token: 63W3FGNNTNHPL1VL7TCPM258" -H "x-whatap-pcode: 5466" https://service.whatap.io/open/api/json/oids/active_tx?oid=-92962884  >  BATCH_ATX_CNT
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100   199  100   199    0     0   1135      0 --:--:-- --:--:-- --:--:--  1137
+[nldf-app@ec2-mgt-devops001 INFRA-778]$
+
+[nldf-app@ec2-mgt-devops001 INFRA-778]$ jq '.' BATCH_ATX_CNT
+{
+  "pcode": 5466,
+  "time": 1588061015000,
+  "comment": "dbconn : active",
+  "Oids": [
+    {
+      "oid": -489294800,
+      "oname": "SB-228-11-8080",
+      "active_tx_count": 0
+    },
+    {
+      "oid": -92962884,
+      "oname": "SB-233-48-8080",
+      "active_tx_count": 1
+    }
+  ]
+}
+[nldf-app@ec2-mgt-devops001 INFRA-778]$
+
+[nldf-app@ec2-mgt-devops001 INFRA-778]$ jq '.Oids[] | select(.oname=="SB-228-11-8080")' BATCH_ATX_CNT | jq '.active_tx_count'
+0
+[nldf-app@ec2-mgt-devops001 INFRA-778]$ jq '.Oids[] | select(.oname=="SB-233-48-8080")' BATCH_ATX_CNT | jq '.active_tx_count'
+1
+[nldf-app@ec2-mgt-devops001 INFRA-778]$
+
+
+
+jq '.Oids[] | select(.oname|test("SB-233-48-8080")) | .active_tx_count'  BATCH_ATX_CNT
+jq '.Oids[] | select(.oname|test("SB-233-48"))      | .active_tx_count'  BATCH_ATX_CNT
+
+[nldf-app@ec2-mgt-devops001 INFRA-778]$ jq '.Oids[] | select(.oname|test("SB-233-48-8080")) | .active_tx_count'  BATCH_ATX_CNT
+7
+[nldf-app@ec2-mgt-devops001 INFRA-778]$ jq '.Oids[] | select(.oname|test("SB-233-48"))      | .active_tx_count'  BATCH_ATX_CNT
+7
+[nldf-app@ec2-mgt-devops001 INFRA-778]$
